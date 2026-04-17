@@ -52,34 +52,54 @@ CSS 변수, 폰트, 12개 섹션 순서, 시나리오 토글 JS 로직, 비교 �
 - "V1.5", "V2" 뱃지 절대 X
 - "실질 A 문턱" 문구 절대 X
 
-#### ⚠️ Hero 텍스트 가독성 — 3중 보호 필수 (brightness만으로 절대 부족)
+#### ⚠️ Hero 디자인 필수 규격 (고정값 — LLM이 임의로 변경 금지)
 
-건물 사진은 흰색 외벽·하늘·창문 반사 등 밝은 영역이 있어 brightness 필터만으로 텍스트가 섞임.
-**반드시 아래 3겹을 모두 적용해야 함:**
+**핵심 원칙: 배경 이미지가 보여야 한다.** 건물 사진이 안 보일 정도로 어둡게 만들면 안 됨.
+대제목(h1)은 크게+굵게+text-shadow로 배경 위에서 단독으로 선명하게 만든다.
+hero-inner에 불투명 배경을 깔아서 이미지를 가리는 것은 금지.
 
 ```css
-/* 1층: 배경 이미지 극도로 어둡게 */
-.hero-bg { filter: brightness(.18) saturate(1.1); }
+/* Hero 전체 */
+.hero { min-height: 85vh; }
 
-/* 2층: gradient overlay pseudo-element */
+/* 배경 — 적당히 어둡게 (건물이 보여야 함) */
+.hero-bg { filter: brightness(.35) saturate(1.2); }
+
+/* gradient overlay — 상하만 살짝 어둡게 */
 .hero::after {
-  content: '';
-  position: absolute; inset: 0; z-index: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,.3) 40%, rgba(0,0,0,.5) 100%);
+  background: linear-gradient(180deg, rgba(0,0,0,.4) 0%, rgba(0,0,0,.15) 40%, rgba(0,0,0,.4) 100%);
 }
 
-/* 3층: hero-inner에 반투명 dark 배경 */
-.hero-inner {
-  position: relative; z-index: 2;
-  background: rgba(0,0,0,.45);
-  border-radius: 20px;
-  backdrop-filter: blur(2px);
-  max-width: 700px;
-  padding: 50px 40px;
-}
+/* hero-inner — 반투명 배경 없음, 패딩만 */
+.hero-inner { position: relative; z-index: 2; padding: 60px 50px; }
 ```
 
-모든 Hero 텍스트: `color:#fff` + `text-shadow:0 4px 16px rgba(0,0,0,1)` + `opacity:1`
+#### Hero 폰트 사이즈 규격 (고정값)
+
+| 요소 | 데스크톱 | 768px | 480px |
+|------|---------|-------|-------|
+| h1 | `4.8rem` | `2.8rem` | `2.2rem` |
+| hero-tag | `1.1rem` | `.9rem` | `.9rem` |
+| hero-sub | `1.3rem` | `1rem` | `.92rem` |
+| score-num | `4.2rem` | `3.2rem` | `2.6rem` |
+| hero-grade | `3.6rem` | `2.6rem` | `2.2rem` |
+| hero-price | `1.6rem` | `1.3rem` | `1.1rem` |
+| hero-price .gold | `2rem` | `1.6rem` | `1.4rem` |
+
+#### Hero 원형 게이지 사이즈 규격
+
+| 뷰포트 | gauge 크기 |
+|--------|-----------|
+| 데스크톱 | `240×240px` |
+| 768px | `180×180px` |
+| 480px | `150×150px` |
+
+#### Hero text-shadow 규격
+```css
+.hero h1 { color: #fff; text-shadow: 0 4px 20px rgba(0,0,0,.9), 0 2px 6px rgba(0,0,0,.8); }
+.hero-tag, .hero-sub, .hero-price { text-shadow: 0 2px 10px rgba(0,0,0,.8); }
+.score-num { text-shadow: 0 2px 12px rgba(0,0,0,.8); }
+```
 
 ### 2. 시나리오 토글 (JS 로직은 landing_skeleton.md 참조)
 - **버튼 정확히 3개**: A 라이프스타일 / B 카페 운영 / C 재건축

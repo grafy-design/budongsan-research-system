@@ -35,43 +35,81 @@
 
 | 상황 | 규칙 |
 |------|------|
-| Hero (이미지 배경) | `filter:brightness(.2)` 이하 + `hero::after` gradient overlay + `hero-inner` 반투명 배경 |
-| Hero 텍스트 | `opacity:1` 필수. opacity .8 이하 절대 금지 |
+| Hero (이미지 배경) | `filter:brightness(.35)` + gradient overlay — 배경 이미지가 보여야 함 |
+| Hero 대제목(h1) | `color:#fff` + 강한 `text-shadow` — 배경 이미지 위에서 단독으로 선명해야 함 |
+| Hero 보조 텍스트 | `color:rgba(255,255,255,.85~.9)` + `text-shadow` |
 | 어두운 배경(primary) 위 텍스트 | `color:#fff` + `opacity:1`. Soul 카드, 결론박스, 테이블 헤더 포함 |
 | 밝은 배경 위 보조 텍스트 | `color:var(--color-muted)` 허용하되 font-size .75rem 이상 |
 | 골드 텍스트 | 어두운 배경에서만 사용. 밝은 배경에서 골드는 가독성 불량 |
 
-### Hero 이미지 배경 필수 3중 보호 (brightness만으로 부족 — 반드시 3겹)
+### Hero 디자인 필수 규격
+
+**핵심 원칙: 배경 이미지가 보여야 한다.** 건물 사진을 너무 어둡게 하면 의미 없음. 적당히 어둡게(`brightness(.35)`) + gradient overlay로 텍스트 가독성 확보.
 
 ```css
-/* 1층: 배경 이미지 자체를 매우 어둡게 */
-.hero-bg { filter: brightness(.18) saturate(1.1); }
+/* Hero 전체: 높이 넉넉하게 */
+.hero {
+  min-height: 85vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; color: #fff; overflow: hidden;
+}
 
-/* 2층: pseudo-element gradient overlay */
+/* 1층: 배경 이미지 — 적당히 어둡게 (건물이 보여야 함) */
+.hero-bg {
+  position: absolute; inset: 0;
+  background: url('assets/images/exterior_01.jpg') center/cover;
+  filter: brightness(.35) saturate(1.2);
+}
+
+/* 2층: gradient overlay — 상하 살짝 어둡게 */
 .hero::after {
   content: '';
   position: absolute; inset: 0; z-index: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,.3) 40%, rgba(0,0,0,.5) 100%);
+  background: linear-gradient(180deg, rgba(0,0,0,.4) 0%, rgba(0,0,0,.15) 40%, rgba(0,0,0,.4) 100%);
 }
 
-/* 3층: hero-inner 자체에 반투명 배경 */
+/* hero-inner: 반투명 배경 없음 — 텍스트 크기+shadow로 승부 */
 .hero-inner {
   position: relative; z-index: 2;
-  background: rgba(0,0,0,.45);
-  border-radius: 20px;
-  backdrop-filter: blur(2px);
-  max-width: 700px;
-  padding: 50px 40px;
+  padding: 60px 50px;
 }
 ```
 
-**brightness 필터만으로 절대 충분하지 않음.** 건물 사진은 흰색 외벽·하늘·창문 반사 등 밝은 영역이 있어서 filter만으로는 텍스트가 섞임. 반드시 hero-inner에 반투명 배경을 깔아야 함.
+### Hero 폰트 사이즈 필수 규격 (고정값 — LLM이 임의로 줄이지 말 것)
+
+| 요소 | 데스크톱 (1440px) | 태블릿 (768px) | 모바일 (480px) |
+|------|------------------|---------------|---------------|
+| h1 (대제목) | `4.8rem` | `2.8rem` | `2.2rem` |
+| hero-tag (상단 태그) | `1.1rem` | `.9rem` | `.9rem` |
+| hero-sub (서브텍스트) | `1.3rem` | `1rem` | `.92rem` |
+| score-num (점수 숫자) | `4.2rem` | `3.2rem` | `2.6rem` |
+| score-label | `1rem` | `.85rem` | `.85rem` |
+| hero-grade (등급) | `3.6rem` | `2.6rem` | `2.2rem` |
+| hero-price | `1.6rem` | `1.3rem` | `1.1rem` |
+| hero-price .gold | `2rem` | `1.6rem` | `1.4rem` |
+
+### Hero 원형 게이지 사이즈 필수 규격
+
+| 뷰포트 | gauge 크기 | stroke-width |
+|--------|-----------|-------------|
+| 데스크톱 (1440px) | `240×240px` | `8` |
+| 태블릿 (768px) | `180×180px` | `8` |
+| 모바일 (480px) | `150×150px` | `8` |
+
+### Hero text-shadow 규격
+
+```css
+.hero h1 { text-shadow: 0 4px 20px rgba(0,0,0,.9), 0 2px 6px rgba(0,0,0,.8); }
+.hero-tag, .hero-sub, .hero-price { text-shadow: 0 2px 10px rgba(0,0,0,.8); }
+.score-num { text-shadow: 0 2px 12px rgba(0,0,0,.8); }
+```
 
 **금지 패턴:**
-- 이미지 배경 위 `opacity:.7` 이하 텍스트
-- 어두운 배경에 text-shadow 없는 텍스트
-- 비슷한 명도의 배경+텍스트 조합 (눈으로 구분 안 되면 FAIL)
-- **hero-inner에 반투명 배경 없이 brightness + text-shadow만 사용** → FAIL
+- 배경 이미지를 `brightness(.2)` 이하로 너무 어둡게 만들어 안 보이게 하기 → FAIL
+- h1을 `2.6rem` 이하로 작게 만들기 → FAIL
+- 게이지를 `160px` 이하로 작게 만들기 → FAIL
+- hero-inner에 불투명 배경을 깔아서 배경 이미지를 가리기 → FAIL
+- 어두운 배경에 text-shadow 없는 텍스트 → FAIL
 
 ---
 

@@ -165,12 +165,17 @@ const { chromium } = require('playwright');
 - [ ] **모바일 Hero 스크린샷** → Read 도구로 시각 확인
   - 모바일에서도 동일하게 모든 텍스트가 읽히는가?
 
-#### CSS 필수 조건 (스크린샷 확인 전 사전 검증)
-- [ ] `.hero-bg` → `filter:brightness(.25)` 이하
-- [ ] `.hero-inner` → `background:rgba(0,0,0,.4)` 이상 반투명 오버레이 존재
-- [ ] `.hero h1` → `text-shadow` 존재 + `color:#fff`
-- [ ] `.hero-sub`, `.hero-tag` → `opacity:1` (0.8 이하 금지)
-- [ ] `.score-label` → `color:#fff` + `text-shadow` 존재
+#### CSS + 규격 검증 (스크린샷 확인 전 사전 검증)
+- [ ] `.hero` → `min-height` ≥ `85vh`
+- [ ] `.hero-bg` → `filter:brightness(.3~.4)` — 배경 이미지가 보여야 함
+- [ ] `.hero-bg` brightness `.2` 이하 (너무 어두움) → **FAIL**
+- [ ] `.hero-inner` → 불투명 배경(`background:rgba(0,0,0,...)`) 없어야 함 → 있으면 **FAIL**
+- [ ] `.hero h1` → `font-size` ≥ `4rem` + `text-shadow` + `color:#fff`
+- [ ] `.hero-gauge` → `width` ≥ `220px`
+- [ ] `.score-num` → `font-size` ≥ `3.8rem`
+- [ ] `.hero-grade` → `font-size` ≥ `3rem`
+- [ ] `.hero-price` → `font-size` ≥ `1.4rem`
+- [ ] `.score-label` → `text-shadow` 존재
 
 #### Soul 카드 (어두운 배경)
 - [ ] **Soul 섹션 스크린샷** → Read 도구로 시각 확인
@@ -186,9 +191,11 @@ const { chromium } = require('playwright');
 
 #### FAIL 판정 기준
 - 스크린샷에서 텍스트가 배경과 구분 안 됨 → **즉시 FAIL**
-- 이미지 배경 위 텍스트에 반투명 오버레이 없음 → **FAIL**
-- opacity .8 이하 텍스트 어두운 배경 위 → **FAIL**
-- text-shadow 없이 이미지 배경 위 텍스트 → **FAIL**
+- h1이 `4rem` 미만으로 작음 → **FAIL**
+- 게이지가 `220px` 미만으로 작음 → **FAIL**
+- 배경 이미지가 안 보일 정도로 어두움 → **FAIL**
+- hero-inner에 불투명 배경을 깔아서 이미지 가림 → **FAIL**
+- text-shadow 없이 이미지 배경 위 h1 텍스트 → **FAIL**
 - "CSS로 잘 했으니 괜찮겠지" 추측만으로 PASS → **절대 금지**
 
 ### 9. 외부 링크 target="_blank" 검증

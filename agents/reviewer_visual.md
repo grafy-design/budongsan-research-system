@@ -96,17 +96,26 @@
 - [ ] 랜딩 visible DOM → 약어 0
 - [ ] matplotlib PNG 라벨에 한 글자라도 약어 보이면 → FAIL
 
-### 6. 텍스트 명도 대비 검증 (WCAG AA 기준)
+### 6. 텍스트 명도 대비 + Hero 규격 검증
 
-#### Hero 영역 — 3중 보호 CSS 검증
-- [ ] `.hero-bg` → `filter:brightness(.2)` 이하 확인
+#### Hero 디자인 규격 검증 (고정값 — 틀리면 즉시 FAIL)
+- [ ] `.hero` → `min-height:85vh` 확인
+- [ ] `.hero-bg` → `filter:brightness(.3~.4)` 범위 (배경 이미지가 보여야 함)
+- [ ] `.hero-bg` → `brightness(.2)` 이하로 너무 어두움 → FAIL
 - [ ] `.hero::after` → gradient overlay pseudo-element 존재 확인
-- [ ] `.hero-inner` → `background:rgba(0,0,0,.4)` 이상 반투명 배경 존재 확인
-- [ ] 제목(h1) → `color:#fff` + `text-shadow` 적용 확인
-- [ ] 부제/sub 텍스트 → `opacity:1` (0.8 이하 금지) + `text-shadow` 확인
-- [ ] `.score-label` → `color:#fff` + `text-shadow` 적용 확인
-- [ ] 가격 텍스트 → `color:#fff` 확인
-- [ ] **brightness + text-shadow만 있고 hero-inner 반투명 배경 없으면 → 즉시 FAIL**
+- [ ] `.hero-inner` → 불투명 배경(`background:rgba(0,0,0,.4)` 등) 없어야 함 → 있으면 FAIL
+- [ ] `.hero h1` → `font-size` ≥ `4rem` (데스크톱 기준) 확인
+- [ ] `.hero h1` → `color:#fff` + `text-shadow` 존재 확인
+- [ ] `.hero-gauge` → `width` ≥ `220px` (데스크톱 기준) 확인
+- [ ] `.score-num` → `font-size` ≥ `3.8rem` 확인
+- [ ] `.hero-grade` → `font-size` ≥ `3rem` 확인
+- [ ] `.hero-price` → `font-size` ≥ `1.4rem` 확인
+- [ ] `.hero-sub` → `font-size` ≥ `1.1rem` 확인
+
+#### 모바일 반응형 Hero 규격 (768px 미디어쿼리)
+- [ ] h1 → `2.4rem` 이상
+- [ ] gauge → `160px` 이상
+- [ ] score-num → `2.8rem` 이상
 
 #### 어두운 배경 위 텍스트 전체
 - [ ] Soul 카드(.soul-section, 배경: primary) 내 p 태그 opacity 1.0
@@ -115,9 +124,11 @@
 - [ ] 어두운 배경 위 텍스트에 opacity .7 이하 사용 금지 → FAIL
 
 #### FAIL 판정 기준
-- hero-inner에 반투명 배경(rgba dark) 없음 → FAIL
-- 어두운 배경에 opacity .8 이하 텍스트 → FAIL
-- 이미지 배경에 text-shadow 없는 텍스트 → FAIL
+- h1이 `4rem` 미만으로 작음 → FAIL
+- 게이지가 `220px` 미만으로 작음 → FAIL
+- 배경 이미지가 안 보일 정도로 어두움 (`brightness(.2)` 이하) → FAIL
+- hero-inner에 불투명 배경을 깔아서 이미지 가림 → FAIL
+- 어두운 배경에 text-shadow 없는 h1 텍스트 → FAIL
 - 배경과 텍스트 색상 차이가 눈으로 봐서 구분 안 됨 → FAIL
 
 ### 7. 메타 섹션 본문 삭제 확인
