@@ -1,0 +1,41 @@
+{
+  "skill_name": "property-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/property-review https://byulzip.com/shop_view/?idx=940",
+      "description": "부암동 325-3 재현 (본 프로젝트 기준 매물)",
+      "expected_output": "5대 리서치 md + 점수 JSON + DOCX + 랜딩 HTML + Vercel URL",
+      "assertions": [
+        "research/01_usage_change.md 존재",
+        "scoring/scores.json 8차원 32항목",
+        "output/docx/*.docx python-docx reload 성공",
+        "output/landing/index.html HTTP 200",
+        "외부 링크 전수 200 OK",
+        "금지어 grep 0"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "/property-review 서울 종로구 평창동 446-27 55억 사옥+게스트하우스",
+      "description": "평창동 가상 매물 (다른 지역·다른 가격대)",
+      "expected_output": "동일 구조 산출물",
+      "assertions": [
+        "주소가 평창동으로 반영",
+        "가격 55억 기준 평당가 계산",
+        "시나리오 A/B/C 적용"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "/property-review https://allios.co.kr/item/view/14450",
+      "description": "이태원 매물 URL (카페 컨버전 용도)",
+      "expected_output": "URL 크롤링 → 매물 정보 추출 → 리서치 → 보고서",
+      "assertions": [
+        "source_url 에서 주소·가격 자동 추출",
+        "리서치 5건 완료",
+        "Vercel 배포 URL 반환"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "address": "",
+  "price_eok": 0,
+  "area_m2": 0,
+  "area_pyeong": 0,
+  "built_year": 0,
+  "structure": "",
+  "purpose": [],
+  "source_url": "",
+  "img_dir": "img/",
+  "scenarios": {
+    "A": {"name": "라이프스타일", "desc": "갤러리·그림 전시·일반 인테리어"},
+    "B": {"name": "카페 운영", "desc": "용도변경 + 부분 구조변경, 비용 A↑"},
+    "C": {"name": "재건축", "desc": "완전 신축, 비용 B↑"}
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "_doc": "peer_table.json 스키마 — 랜딩 비교 테이블 렌더에 사용. v3 부암동에서 추출.",
+  "generated_at": "{{YYYY-MM-DD}}",
+  "source": "scoring/peer_scores.json",
+  "subject": {
+    "rank": 1,
+    "name": "{{동}} {{번지}} (본 매물)",
+    "district": "{{동}}",
+    "area_pyeong": "{{대지면적_평}}",
+    "price_total_eok": "{{매매가_억}}",
+    "price_per_pyeong_manwon": "{{평당가_만원}}",
+    "score": "{{종합점수}}",
+    "grade": "{{등급}}",
+    "is_subject": true,
+    "group": "subject",
+    "diff_from_subject": 0,
+    "note": "{{준공연도}} 준공 · {{구조}}, 협상선 {{가격}}억 확정",
+    "source_label": "{{출처명}}",
+    "source_url": "{{실제_매물_URL}}",
+    "year": "{{준공연도}}년 준공"
+  },
+  "peers": [
+    {
+      "rank": 2,
+      "peer_id": "A1",
+      "name": "{{비교매물_이름}}",
+      "district": "{{동}}",
+      "area_pyeong": 94,
+      "price_total_eok": 19.5,
+      "price_per_pyeong_manwon": 2074,
+      "score": 70.2,
+      "group": "{{그룹_ID: buamdong / pyeongchang_seongbuk / cafe_conversion}}",
+      "diff_from_subject": -6.9,
+      "note": "{{한줄_설명}}",
+      "source_label": "{{출처_레이블}}",
+      "source_url": "{{실제_매물_URL — 반드시 WebSearch로 실존 확인}}",
+      "year": "{{준공연도}}년 준공"
+    }
+  ],
+  "meta": {
+    "subject_score": "{{종합점수}}",
+    "subject_grade": "{{등급}}",
+    "subject_rank_overall": 1,
+    "total_peers": 20,
+    "total_rows": 21,
+    "pooled_avg": 63.6,
+    "pooled_median": 63.8,
+    "buamdong_rank_label": "{{동}} 단독 {{순위}}위 (상위 {{백분위}}%)",
+    "overall_rank_label": "Pooled N=20 전체 {{순위}}위 (상위 {{백분위}}%)",
+    "group_breakdown": {
+      "buamdong": 10,
+      "pyeongchang_seongbuk": 5,
+      "cafe_conversion": 5
+    },
+    "data_sources": {
+      "실거래": "국토교통부 실거래가 공개시스템 (rt.molit.go.kr)",
+      "호가_시장추정": "네이버부동산 (new.land.naver.com) + 디스코 (disco.re)"
+    }
+  }
+}
